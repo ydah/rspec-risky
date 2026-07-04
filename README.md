@@ -1,5 +1,8 @@
 # rspec-risky
 
+[![Ruby](https://github.com/ydah/rspec-risky/actions/workflows/main.yml/badge.svg)](https://github.com/ydah/rspec-risky/actions/workflows/main.yml)
+[![Gem Version](https://img.shields.io/gem/v/rspec-risky.svg)](https://rubygems.org/gems/rspec-risky)
+
 Runtime risky-test detection for RSpec.
 
 `rspec-risky` reports examples that pass without executing any expectations, and examples that write unexpected output to `$stdout` or `$stderr`.
