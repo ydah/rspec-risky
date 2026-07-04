@@ -1,0 +1,81 @@
+module RSpec
+  module Risky
+    VERSION: String
+
+    def self.configuration: () -> Configuration
+    def self.configure: (?untyped rspec_configuration) { (Configuration) -> void } -> Configuration
+    def self.record_expectation: (?Integer count) -> void
+
+    class Error < StandardError
+    end
+
+    class RiskyExampleError < Error
+      attr_reader verdicts: Array[RuleResult]
+    end
+
+    class Configuration
+      attr_reader unknown_test: UnknownTestConfig
+      attr_reader redundant_print: RedundantPrintConfig
+
+      def rules: () -> Array[Symbol]
+      def rules=: (Array[Symbol]) -> Array[Symbol]
+      def rule_enabled?: (Symbol) -> bool
+    end
+
+    class RuleConfig
+      attr_reader severity: Symbol
+
+      def severity=: (Symbol) -> Symbol
+    end
+
+    class UnknownTestConfig < RuleConfig
+      attr_accessor adapters: Array[untyped]
+      attr_accessor count_mocks: bool
+
+      def adapter_count: (untyped example) -> Integer
+    end
+
+    class RedundantPrintConfig < RuleConfig
+      attr_accessor allow_warn: bool
+      attr_accessor capture_loggers: bool
+      attr_accessor logger_ignore_paths: Array[String]
+      attr_accessor passthrough: bool
+      attr_accessor strict: bool
+      attr_reader capture: Symbol
+
+      def capture=: (Symbol) -> Symbol
+      def captures_logger?: (String?) -> bool
+      def captures?: (Symbol) -> bool
+    end
+
+    class RuleResult
+      attr_reader rule: Symbol
+      attr_reader severity: Symbol
+      attr_reader message: String
+      attr_reader evidence: untyped
+
+      def to_h: () -> Hash[Symbol, untyped]
+    end
+
+    class Formatter
+    end
+
+    class JsonFormatter
+    end
+
+    class JsonEventFormatter
+    end
+
+    class StaticDetector
+      def self.scan: (Array[String] paths) -> Array[untyped]
+    end
+
+    module Evaluation
+      def self.assertion_density: (Hash[String, untyped] dynamic_payload) -> Hash[Symbol, untyped]
+      def self.compare: (static_findings: Array[untyped], dynamic_payload: Hash[String, untyped]) -> Hash[Symbol, untyped]
+      def self.label_template: (Hash[String, untyped] dynamic_payload) -> Array[Hash[Symbol, untyped]]
+      def self.mutation_study: (Hash[String, untyped] dynamic_payload, ?Hash[String, untyped]? mutation_payload) -> Hash[Symbol, untyped]
+      def self.precision: (Hash[String, untyped] labels_payload) -> Hash[Symbol, untyped]
+    end
+  end
+end

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "rspec/risky/autorun"
+require "rspec/core"
+
+exit RSpec::Core::Runner.run(ARGV, $stderr, $stdout)
